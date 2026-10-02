@@ -116,5 +116,6 @@ text directly and redeploy (push to GitHub, or re-drag the folder onto Netlify).
 intentionally written to avoid dates or one-off events, so it shouldn't need frequent updates;
 anything time-sensitive belongs on the social media accounts linked in the footer instead.
 
-The footer's Instagram, X/Twitter, LinkedIn, and YouTube links are live. Facebook is still a
-placeholder (`href="#"`) in both pages' footers — update it once you have that link.
+The footer's Instagram, X/Twitter, LinkedIn, and YouTube links are live (no Facebook — the
+foundation doesn't have one). If that changes, add a `<li><a href="...">Facebook</a></li>` back
+into the `.footer-links` list in both `index.html` and `inspiration.html`.

@@ -571,72 +571,21 @@ button {
 }
 
 /* ============================================================
-   Timeline (3-Year Focus)
+   Focus areas grid — three parallel areas, deliberately not
+   ordered/numbered (the foundation's work isn't a sequence of
+   phases, it's three things done together and continuously).
+   Reuses .activity-card for the individual cards.
    ============================================================ */
-.timeline {
-  list-style: none;
+.focus-grid {
+  margin-top: var(--space-6);
   display: grid;
   grid-template-columns: 1fr;
-  gap: var(--space-5);
-  margin-top: var(--space-6);
-  counter-reset: none;
+  gap: var(--space-4);
 }
 
-.timeline-item {
-  position: relative;
-  padding-left: var(--space-5);
-  border-left: 3px solid var(--border);
-}
-
-.timeline-item .timeline-marker {
-  display: inline-block;
-  font-family: var(--font-display);
-  font-weight: 700;
-  font-size: 0.8rem;
-  letter-spacing: 0.04em;
-  color: var(--white);
-  background: var(--navy);
-  padding: 0.3rem 0.75rem;
-  border-radius: 999px;
-  margin-bottom: var(--space-2);
-}
-
-.timeline-item .timeline-marker::before {
-  content: "";
-  display: inline-block;
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: var(--cyan);
-  margin-right: 0.4rem;
-  vertical-align: middle;
-}
-
-.timeline-title {
-  font-size: 1.25rem;
-  margin-bottom: var(--space-1);
-}
-
-.timeline-item p {
-  max-width: 50ch;
-  color: var(--text-muted);
-}
-
-@media (min-width: 860px) {
-  .timeline {
+@media (min-width: 640px) {
+  .focus-grid {
     grid-template-columns: repeat(3, 1fr);
-    gap: var(--space-4);
-  }
-
-  .timeline-item {
-    padding-left: 0;
-    padding-top: var(--space-4);
-    border-left: none;
-    border-top: 3px solid var(--border);
-  }
-
-  .timeline-item .timeline-marker {
-    margin-top: calc(var(--space-4) * -1 - 13px);
   }
 }
 
@@ -666,6 +615,7 @@ button {
 
 .activity-icon {
   display: flex;
+  flex-shrink: 0;
   align-items: center;
   justify-content: center;
   width: 44px;
@@ -677,8 +627,10 @@ button {
 }
 
 .activity-icon svg {
+  display: block;
   width: 22px;
   height: 22px;
+  flex-shrink: 0;
 }
 
 .activity-card h3 {
