@@ -76,15 +76,33 @@ paths:
 4. GitHub gives you a URL like `https://yourusername.github.io/repo-name/` within a minute or two.
 5. (Optional) Add a custom domain under Settings → Pages → Custom domain.
 
-### Netlify
+### Netlify — connected to GitHub (recommended for this repo)
+
+This repo already lives at `github.com/rtcfoundation23/RTC-website`, so the git-connected
+method is the better fit: every `git push` to `main` auto-redeploys the live site, no manual
+re-upload step. `netlify.toml` in this repo already tells Netlify there's no build step —
+just publish the root folder as-is.
+
+1. Go to [app.netlify.com](https://app.netlify.com) and sign in (or create a free account) —
+   signing in with the `rtcfoundation23` GitHub account makes the next step one click.
+2. **Add new site → Import an existing project → Deploy with GitHub**, authorize Netlify to
+   access GitHub if asked, then pick the `RTC-website` repo.
+3. Netlify reads `netlify.toml` automatically — leave the build command blank and publish
+   directory as `.` (both should already be filled in correctly). Click **Deploy**.
+4. Netlify gives you a free `*.netlify.app` URL within about a minute. From then on, every push
+   to `main` redeploys automatically — no need to touch Netlify again for routine content edits.
+5. (Optional) Add a custom domain for free under **Site settings → Domain management**.
+
+### Netlify — manual drag-and-drop (no GitHub account needed)
+
+Quicker for a one-off deploy, but you'd have to re-drag the folder by hand after every future
+change instead of it happening automatically on push.
 
 1. Go to [app.netlify.com](https://app.netlify.com) and sign in.
-2. Drag and drop this folder onto the "Sites" page (Netlify's manual deploy drop zone) — or
-   connect the GitHub repo for automatic redeploys on every push.
-3. Netlify gives you a free `*.netlify.app` URL immediately; add a custom domain for free under
-   Site settings → Domain management if you have one.
+2. Drag and drop this project folder onto the "Sites" page (Netlify's manual deploy drop zone).
+3. Netlify gives you a free `*.netlify.app` URL immediately.
 
-Either option is free for a static site like this one and needs no ongoing maintenance.
+Both options are free for a static site like this one and need no ongoing maintenance.
 
 ## Swapping the sign-up form for a Google Form
 
