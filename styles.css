@@ -126,20 +126,25 @@ button {
   border: 0;
 }
 
+/* Hidden by shifting up by its OWN height (plus a margin), not a fixed
+   pixel offset: a fixed -48px was shorter than the link itself (~50px,
+   more with mobile text scaling), so its bottom edge showed as a blue
+   strip in the top-left corner. Still focusable by keyboard. */
 .skip-link {
   position: absolute;
-  top: -48px;
+  top: 0;
   left: var(--space-3);
   background: var(--navy);
   color: var(--white);
   padding: var(--space-2) var(--space-4);
   border-radius: var(--radius);
   z-index: 1000;
-  transition: top var(--transition);
+  transform: translateY(-200%);
+  transition: transform var(--transition);
 }
 
 .skip-link:focus {
-  top: var(--space-3);
+  transform: translateY(var(--space-3));
 }
 
 /* ============================================================
@@ -294,6 +299,11 @@ button {
 .nav-menu a:hover {
   color: var(--navy);
   border-color: var(--cyan);
+}
+
+/* Mobile-only Donate pill; switched on inside the 780px media query at the bottom. */
+.nav .nav-donate-mobile {
+  display: none;
 }
 
 .nav-cta {
@@ -716,6 +726,153 @@ button {
 }
 
 /* ============================================================
+   Donate — a navy band (echoing the "Donation Avenue" graphic)
+   with the payment details front and center and one-tap copy.
+   ============================================================ */
+.donate {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(165deg, var(--navy) 0%, var(--navy-dark) 100%);
+  color: var(--white);
+}
+
+.donate .container {
+  position: relative;
+  z-index: 1;
+}
+
+.donate-watermark {
+  position: absolute;
+  right: -60px;
+  bottom: -60px;
+  width: 300px;
+  height: auto;
+  opacity: 0.07;
+  pointer-events: none;
+}
+
+.donate .section-heading {
+  color: var(--white);
+}
+
+.donate .lede {
+  color: rgba(255, 255, 255, 0.88);
+}
+
+.donate :focus-visible {
+  outline-color: var(--cyan);
+}
+
+.donate-grid {
+  margin-top: var(--space-6);
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-4);
+}
+
+.donate-card {
+  display: flex;
+  flex-direction: column;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: var(--radius-lg);
+  padding: var(--space-5);
+}
+
+.donate-card h3 {
+  color: var(--white);
+  font-size: 1.2rem;
+  margin-bottom: 0.15rem;
+}
+
+.donate-provider {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: var(--cyan);
+  margin-bottom: var(--space-4);
+}
+
+.donate-details {
+  margin: 0 0 var(--space-4);
+}
+
+.donate-details div + div {
+  margin-top: var(--space-3);
+}
+
+.donate-details dt {
+  font-size: 0.82rem;
+  color: rgba(255, 255, 255, 0.78);
+  margin-bottom: 0.15rem;
+}
+
+.donate-details dd {
+  margin: 0;
+  font-weight: 600;
+}
+
+.donate-number {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(1.4rem, 1.1rem + 1.2vw, 1.75rem);
+  letter-spacing: 0.02em;
+  color: var(--cyan);
+  font-variant-numeric: tabular-nums;
+  overflow-wrap: anywhere;
+  /* one tap/click selects the whole number if Copy ever isn't available */
+  -webkit-user-select: all;
+  user-select: all;
+}
+
+.copy-btn {
+  margin-top: auto;
+  align-self: flex-start;
+  min-height: 44px;
+  padding: 0.6rem 1.4rem;
+  border: 2px solid transparent;
+  border-radius: 999px;
+  background: var(--white);
+  color: var(--navy-dark);
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: background var(--transition), transform var(--transition);
+}
+
+.copy-btn:hover {
+  background: var(--cyan);
+  transform: translateY(-1px);
+}
+
+.copy-btn.is-copied {
+  background: var(--cyan);
+}
+
+.donate-note {
+  margin-top: var(--space-5);
+  max-width: 62ch;
+  color: rgba(255, 255, 255, 0.88);
+}
+
+.donate-note a {
+  color: var(--white);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.donate-note a:hover {
+  color: var(--cyan);
+}
+
+@media (min-width: 860px) {
+  .donate-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* ============================================================
    Checklist (Membership)
    ============================================================ */
 .checklist {
@@ -929,6 +1086,21 @@ button {
   .nav-cta {
     margin-top: var(--space-2);
     text-align: center;
+  }
+
+  /* Donate stays one tap away on phones instead of hiding inside the
+     menu: a compact pill beside the hamburger, and the in-menu copy
+     is dropped so it isn't listed twice. */
+  .nav .nav-donate-mobile {
+    display: inline-flex;
+    margin-left: auto;
+    margin-right: calc(var(--space-2) * -1);
+    padding: 0.5rem 1.15rem;
+    font-size: 0.9rem;
+  }
+
+  .nav-menu .nav-menu-donate {
+    display: none;
   }
 
   .site-header {

@@ -141,7 +141,27 @@ widths, not the first thing rendered.
   Foundation anniversary event — it plays **with sound and visible controls**, not
   autoplay/muted (deliberately different from the decorative logo videos in nav/footer).
 
+## Donations (added after the original handoff)
+
+- `index.html#donate` ("Support Our Work", navy band between "What We Do" and "Who Can Join")
+  holds the real payment details: GCB Bank PLC (account name Rita Tia Chichi Foundation LGB,
+  6271180002409), MTN MoMo (0538859526), MoMo Pay ID 183451, transcribed from the foundation's
+  own "Donation Avenue" graphic and re-verified digit by digit. **Never edit these from memory** —
+  confirm against the official graphic or the user.
+- Copy buttons read the number from the sibling `.donate-number` text (single source of truth;
+  logic in `script.js`). Tested via stubbed clipboard for both the Clipboard API and the
+  `execCommand` fallback; a genuine trusted-click test on a phone is still worth doing once live.
+- All Donate buttons route there. On phones the nav shows a compact Donate pill beside the
+  hamburger (`.nav-donate-mobile`) and hides the in-menu duplicate (`.nav-menu-donate`) — that
+  markup is duplicated in `inspiration.html` too, and uses `index.html#donate` as the target.
+- The hero's buttons were deliberately left alone ("Get Involved" + "Find us on social media").
+
 ## Known outstanding items (not yet resolved, not necessarily urgent)
+
+- **Patrons are intentionally NOT on the site.** Two named patrons were added and then removed
+  because neither had confirmed accepting that role. The section is a plain "Partners" section
+  again (heading, lede, and list all say partners only). Don't re-add any named patron, or a
+  "Patrons" heading, until the user says each person has confirmed.
 
 - Facebook footer link needs a real URL.
 - `hero-child-cutout.png` — orphaned, unresolved whether to delete.

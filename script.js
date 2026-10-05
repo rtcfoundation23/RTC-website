@@ -66,6 +66,73 @@
   }
 
   /* ----------------------------------------------------------
+     Donate section: "Copy" buttons. Each copies the .donate-number
+     shown in its own card, so the number lives in one place only.
+     Falls back to a hidden textarea where the async Clipboard API
+     isn't available (older browsers, non-HTTPS preview).
+     ---------------------------------------------------------- */
+  var copyStatus = document.getElementById("copyStatus");
+
+  function copyText(text) {
+    if (navigator.clipboard && window.isSecureContext) {
+      return navigator.clipboard.writeText(text);
+    }
+    return new Promise(function (resolve, reject) {
+      var area = document.createElement("textarea");
+      area.value = text;
+      area.setAttribute("readonly", "");
+      area.style.position = "fixed";
+      area.style.opacity = "0";
+      document.body.appendChild(area);
+      area.select();
+      var ok = false;
+      try {
+        ok = document.execCommand("copy");
+      } catch (err) {
+        ok = false;
+      }
+      document.body.removeChild(area);
+      if (ok) {
+        resolve();
+      } else {
+        reject(new Error("copy failed"));
+      }
+    });
+  }
+
+  document.querySelectorAll(".copy-btn").forEach(function (button) {
+    var originalLabel = button.textContent;
+    var resetTimer;
+
+    button.addEventListener("click", function () {
+      var card = button.closest(".donate-card");
+      var numberEl = card && card.querySelector(".donate-number");
+      if (!numberEl) return;
+
+      var what = button.getAttribute("data-copy-label") || "Number";
+
+      copyText(numberEl.textContent.trim()).then(
+        function () {
+          button.textContent = "Copied";
+          button.classList.add("is-copied");
+          if (copyStatus) copyStatus.textContent = what + " copied to clipboard.";
+          clearTimeout(resetTimer);
+          resetTimer = setTimeout(function () {
+            button.textContent = originalLabel;
+            button.classList.remove("is-copied");
+          }, 2000);
+        },
+        function () {
+          if (copyStatus) {
+            copyStatus.textContent =
+              "Couldn't copy automatically. Please select the number and copy it manually.";
+          }
+        }
+      );
+    });
+  });
+
+  /* ----------------------------------------------------------
      Get Involved form: no backend, so we open the visitor's
      email client with a pre-filled mailto: link.
 

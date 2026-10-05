@@ -127,6 +127,23 @@ that and want responses collected automatically:
 
 4. Remove (or leave harmlessly unused) the sign-up form handling in `script.js`.
 
+## Donation details
+
+The "Support Our Work" section (`#donate` in `index.html`) shows the foundation's GCB Bank
+account, MTN MoMo number, and MoMo Pay ID, each with a one-tap Copy button. Every "Donate"
+button on the site (nav, the phone-size pill beside the hamburger, and the Inspiration page)
+points at it.
+
+**To change a payment detail, edit it in exactly one place:** the text inside the matching
+`<dd class="donate-number">` in `index.html`. The Copy buttons read the number straight from
+that element, so there's no second copy to keep in sync. After any change, double-check every
+digit against the foundation's official donation graphic — a typo here sends someone's money
+to the wrong account.
+
+There's no card/online payment processing (this is a static site). If you ever want one, a
+hosted payment link (e.g. Paystack or Flutterwave payment pages) can be added as a fourth card
+in the same grid without any backend.
+
 ## Updating content
 
 Everything is in `index.html` (and `inspiration.html`) — there's no CMS or database. Edit the

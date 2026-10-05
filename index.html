@@ -37,6 +37,7 @@
           <img class="logo-still" src="assets/img/logo.png" alt="" hidden />
         </span>
       </a>
+      <a class="btn btn-primary nav-donate-mobile" href="#donate">Donate</a>
       <button class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="navMenu">
         <span class="sr-only">Menu</span>
         <span class="nav-toggle-bar"></span>
@@ -51,7 +52,7 @@
         <li><a href="#membership">Join Us</a></li>
         <li><a href="#signup">Get Involved</a></li>
         <li><a href="#partners">Partners</a></li>
-        <li><a class="nav-cta" href="#signup">Donate</a></li>
+        <li class="nav-menu-donate"><a class="nav-cta" href="#donate">Donate</a></li>
       </ul>
     </nav>
   </header>
@@ -229,6 +230,76 @@
       </div>
     </section>
 
+    <section class="section donate" id="donate" aria-labelledby="donate-heading">
+      <img class="donate-watermark" src="assets/img/icon-white.png" alt="" aria-hidden="true" />
+      <div class="container">
+        <h2 id="donate-heading" class="section-heading">Support Our Work</h2>
+        <p class="lede">
+          RTC Foundation exists because of the people we lost, and it grows through the people who
+          stand with us. Every gift supports road safety education, cancer screening and treatment
+          support, and neurological health awareness — the work Rita, Tia, and Chichi inspired.
+        </p>
+
+        <!--
+          Payment details. Each account/ID number appears once, in a .donate-number element —
+          the Copy buttons in script.js read that same text, so there's nothing to keep in sync.
+          To change a number, edit it here and nowhere else.
+        -->
+        <div class="donate-grid">
+          <article class="donate-card">
+            <h3>Bank transfer</h3>
+            <p class="donate-provider">GCB Bank PLC</p>
+            <dl class="donate-details">
+              <div>
+                <dt>Account name</dt>
+                <dd>Rita Tia Chichi Foundation LGB</dd>
+              </div>
+              <div>
+                <dt>Account number</dt>
+                <dd class="donate-number">6271180002409</dd>
+              </div>
+            </dl>
+            <button type="button" class="copy-btn" data-copy-label="GCB Bank account number">Copy account number</button>
+          </article>
+
+          <article class="donate-card">
+            <h3>MTN MoMo</h3>
+            <p class="donate-provider">Mobile Money transfer</p>
+            <dl class="donate-details">
+              <div>
+                <dt>Account name</dt>
+                <dd>Rita Tia Chichi Foundation</dd>
+              </div>
+              <div>
+                <dt>MoMo number</dt>
+                <dd class="donate-number">0538859526</dd>
+              </div>
+            </dl>
+            <button type="button" class="copy-btn" data-copy-label="MTN MoMo number">Copy MoMo number</button>
+          </article>
+
+          <article class="donate-card">
+            <h3>MoMo Pay</h3>
+            <p class="donate-provider">Pay with our ID</p>
+            <dl class="donate-details">
+              <div>
+                <dt>MoMo Pay ID</dt>
+                <dd class="donate-number">183451</dd>
+              </div>
+            </dl>
+            <button type="button" class="copy-btn" data-copy-label="MoMo Pay ID">Copy Pay ID</button>
+          </article>
+        </div>
+
+        <p class="donate-note">
+          Thank you for standing with us. Please double-check the account details before sending.
+          Questions, or want to let us know about your gift? Email
+          <a href="mailto:rtcfoundation23@gmail.com">rtcfoundation23@gmail.com</a>.
+        </p>
+        <p class="sr-only" id="copyStatus" role="status" aria-live="polite"></p>
+      </div>
+    </section>
+
     <section class="section section-alt" id="membership" aria-labelledby="membership-heading">
       <div class="container container-narrow">
         <h2 id="membership-heading" class="section-heading">Who Can Join</h2>
@@ -249,8 +320,9 @@
       <div class="container container-narrow">
         <h2 id="signup-heading" class="section-heading">Get Involved</h2>
         <p class="lede">
-          Whether you want to volunteer, join as a member, or support our work with a donation —
-          tell us a bit about yourself and we'll be in touch.
+          Whether you want to volunteer or join as a member, tell us a bit about yourself and
+          we'll be in touch. Prefer to give financially? You can
+          <a href="#donate">donate directly</a>.
         </p>
 
         <!--
@@ -296,23 +368,15 @@
 
     <section class="section section-alt" id="partners" aria-labelledby="partners-heading">
       <div class="container container-narrow">
-        <h2 id="partners-heading" class="section-heading">Partners &amp; Patrons</h2>
+        <h2 id="partners-heading" class="section-heading">Partners</h2>
         <p class="lede">
           Our work is made possible in partnership with regional health institutions and media
-          partners across Ghana, and the support of our patrons.
+          partners across Ghana, including Komfo Anokye Teaching Hospital (KATH).
         </p>
-
-        <h3 class="values-heading">Institutional partners</h3>
         <ul class="partners-list">
           <li>Komfo Anokye Teaching Hospital (KATH)</li>
           <li>Regional health institutions, Ashanti Region</li>
           <li>Local and regional media partners</li>
-        </ul>
-
-        <h3 class="values-heading">Our patrons</h3>
-        <ul class="partners-list">
-          <li>Dr Vivian Paintsil</li>
-          <li>Prof Newton</li>
         </ul>
       </div>
     </section>
