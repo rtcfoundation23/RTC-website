@@ -141,6 +141,29 @@ widths, not the first thing rendered.
   Foundation anniversary event — it plays **with sound and visible controls**, not
   autoplay/muted (deliberately different from the decorative logo videos in nav/footer).
 
+- The About section has a **second video**, `assets/video/rtc-intro.mp4` (poster
+  `assets/img/rtc-intro-poster.jpg`): the class's medical-school intro covering mission, vision
+  and backstory (~3 min, 640x352, compressed 24MB to 12MB). It sits after the vision paragraph in a
+  `<figure class="about-video about-video--wide">` (640px max, vs 420px for the square one). mp4
+  only, `preload="none"`, with sound and controls. No captions yet; add a WebVTT `<track>` if the
+  user supplies a transcript. The end credit card names the videographer, not RTC.
+
+## Performance + logo blend work (latest)
+
+- **Why the footer logo sometimes looked like a video in a box:** the animation's "white" background
+  wasn't pure white (grey haze + noise) and the baseline line runs edge to edge, so wherever the
+  `mix-blend-mode: multiply` didn't apply (some browsers don't blend hardware-decoded video), a
+  faint rectangle showed against the off-white footer. Fixed at the source: the clip was re-encoded
+  at 640x360 with a `curves` filter that clips near-white to exactly 255 (verified in-browser: every
+  decoded frame's background is 255,255,255), with explicit bt709/tv colour tags, **and** the footer
+  background is now pure white. Multiply is kept as a third layer. Recipe is in the README.
+- **Speed:** self-hosted fonts (removed Google Fonts), responsive `srcset` for the hero photo,
+  footer logo lazy-starts via IntersectionObserver (also pauses off-screen), About videos
+  `preload="none"`, long cache headers in `netlify.toml`. Page weight on first load dropped to roughly
+  120KB of new transfers on a phone (fonts 64KB, CSS 25KB, hero 32KB, nav animation ~130KB).
+- The `[data-lazy]` footer video is not `autoplay` in HTML on purpose; `script.js` starts it. Keep
+  that attribute pair if you touch the footer markup in either page.
+
 ## Donations (added after the original handoff)
 
 - `index.html#donate` ("Support Our Work", navy band between "What We Do" and "Who Can Join")

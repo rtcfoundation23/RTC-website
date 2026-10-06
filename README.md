@@ -10,8 +10,9 @@ index.html           Landing page
 inspiration.html      "Our Inspiration" — the story behind the foundation's name
 styles.css             All styles, shared by both pages
 script.js               Mobile nav, reduced-motion video swap, mailto sign-up form
-assets/img/            Logo, icon, hero photo, tribute video poster
-assets/video/          Animated logo mark (nav + footer) and the "our story" video
+assets/img/            Logo, icon, hero photo (3 sizes), tribute photos, video posters
+assets/video/          Animated logo mark (nav + footer), the "our story" video, the RTC intro video
+assets/fonts/          Self-hosted Inter + Poppins
 ```
 
 ## Previewing locally
@@ -46,20 +47,42 @@ paths:
   new photo's focal point still sits clear of the text
 - `assets/img/hero-child-cutout.png` — no longer used on the page (left over from an earlier hero
   layout); safe to delete, or keep if you want it for another section later
-- `assets/video/hero-animation.mp4` and `.webm` — the animated logo mark, played small (36px in
-  the nav, 32px in the footer). Ideally kept under ~5–8MB combined so the page stays fast on
-  mobile data. If you re-export from source, compress with something like:
+- `assets/video/hero-animation.mp4` and `.webm` — the animated logo mark, played small (a 128x72px
+  box in the nav and footer), so it's stored at 640x360 (~285KB for both formats). The background
+  must be **exactly pure white** so it disappears into the white header and footer; the original
+  AI-generated clip had a faint grey haze that showed up as a box. When re-exporting from a new
+  source, clean the whites the same way:
 
   ```bash
-  ffmpeg -i source.mov -an -vf "scale=960:-2" -c:v libx264 -crf 23 -preset slow -pix_fmt yuv420p -movflags +faststart assets/video/hero-animation.mp4
-  ffmpeg -i source.mov -an -vf "scale=960:-2" -c:v libvpx-vp9 -crf 30 -b:v 0 -pix_fmt yuv420p assets/video/hero-animation.webm
+  VF="scale=640:360:flags=lanczos,curves=all='0/0 0.80/0.80 0.93/1 1/1':interp=pchip,format=yuv420p"
+  ffmpeg -i source.mov -an -vf "$VF" -c:v libx264 -crf 22 -preset slow -pix_fmt yuv420p -color_range tv -colorspace bt709 -color_primaries bt709 -color_trc bt709 -movflags +faststart assets/video/hero-animation.mp4
+  ffmpeg -i source.mov -an -vf "$VF" -c:v libvpx-vp9 -crf 32 -b:v 0 -pix_fmt yuv420p -color_range tv -colorspace bt709 -color_primaries bt709 -color_trc bt709 assets/video/hero-animation.webm
   ```
+
+  The footer copy only starts when scrolled into view (`data-lazy` + `preload="none"`, handled in
+  `script.js`), so it doesn't compete with the hero on first load. The footer background is pure
+  white for the same reason; don't change it back to off-white without re-checking the logo.
+- `assets/img/hero-photo-800.jpg`, `hero-photo-1280.jpg`, `hero-photo.jpg` (1920) — the same hero
+  photo at three widths; the browser picks one via `srcset`, so phones download ~32KB instead of
+  ~210KB. If you replace the photo, regenerate all three:
+  `ffmpeg -i new.jpg -vf scale=800:-2 -q:v 4 hero-photo-800.jpg` (and `1280` likewise).
+- `assets/fonts/` — Inter and Poppins (Latin subset), self-hosted so visitors don't wait on Google's
+  servers. Declared with `@font-face` at the top of `styles.css`. Only Latin characters are
+  included; if you ever need other scripts, add the matching subset from Google Fonts.
 
 - `assets/video/our-story.mp4` and `.webm`, `assets/img/our-story-poster.jpg` — the "hear from
   us" video in the About section on the landing page. This one keeps its audio (`controls`, no
   `autoplay`/`muted`) since it's meant to be watched deliberately, not played as background
   motion. Re-export the same way as above but drop the `-an` flag to keep the audio track, and
   add `-c:a aac -b:a 128k` (mp4) / `-c:a libopus -b:a 96k` (webm).
+- `assets/video/rtc-intro.mp4`, `assets/img/rtc-intro-poster.jpg` — the class's intro video
+  (mission, vision and backstory) in the About section, shown wider (`.about-video--wide`, 640px)
+  below the vision paragraph. It's mp4 only (no webm), `preload="none"` so visitors don't download
+  12MB until they press play, and keeps its audio. To re-export a source file at a similar size:
+
+  ```bash
+  ffmpeg -i source.mp4 -vf "scale=640:-2" -c:v libx264 -crf 28 -preset slow -pix_fmt yuv420p -c:a aac -b:a 96k -movflags +faststart assets/video/rtc-intro.mp4
+  ```
 - `assets/img/tribute-tia.jpg`, `tribute-rita.jpg`, `tribute-chichi.jpg` — the photos on the
   tribute cards in `inspiration.html`, cropped square and centered on each face (letterbox bars
   from the originals removed). To swap one out, replace the file at the same path and same
@@ -103,6 +126,16 @@ change instead of it happening automatically on push.
 3. Netlify gives you a free `*.netlify.app` URL immediately.
 
 Both options are free for a static site like this one and need no ongoing maintenance.
+
+## Performance notes
+
+- Fonts are self-hosted, so there are no third-party requests on load.
+- `netlify.toml` sets cache headers: fonts for a year, images and video for a week. If you replace
+  a file in `assets/` and returning visitors must see it sooner, give the new file a new name.
+- Only the nav animation, hero photo and fonts load up front. The footer animation waits until
+  scrolled to, and both About videos (`preload="none"`) download nothing until Play is pressed.
+- In Netlify (Site configuration → Build & deploy → Post processing) you can also switch on
+  CSS/JS minification and image compression; both are safe for this site.
 
 ## Swapping the sign-up form for a Google Form
 

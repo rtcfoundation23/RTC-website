@@ -3,14 +3,15 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <!-- Keep phones from auto-linking digit strings as blue tap-to-call links -->
+  <meta name="format-detection" content="telephone=no" />
   <title>Our Inspiration — RTC Foundation</title>
   <meta name="description" content="RTC Foundation was founded in memory of Rita, Tia, and Chichi — classmates at KSMD whose lives were lost to the very causes this foundation now fights." />
 
   <link rel="icon" type="image/png" href="assets/img/icon.png" />
 
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@600;700&display=swap" rel="stylesheet" />
+  <link rel="preload" href="assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="preload" href="assets/fonts/poppins-700.woff2" as="font" type="font/woff2" crossorigin />
 
   <link rel="stylesheet" href="styles.css" />
 </head>
@@ -144,7 +145,8 @@
           <video
             class="logo-video"
             poster="assets/img/logo.png"
-            autoplay
+            preload="none"
+            data-lazy
             muted
             loop
             playsinline

@@ -7,3 +7,23 @@
     X-Frame-Options = "SAMEORIGIN"
     X-Content-Type-Options = "nosniff"
     Referrer-Policy = "strict-origin-when-cross-origin"
+
+# Caching. Netlify's default is "re-check with the server on every visit",
+# which costs a round trip per file on slow connections. Images and video
+# are kept for a week; fonts never change, so they're kept for a year.
+# (If you replace a file in assets/ and need it to show up sooner for
+# returning visitors, give the new file a new name.)
+[[headers]]
+  for = "/assets/fonts/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/assets/img/*"
+  [headers.values]
+    Cache-Control = "public, max-age=604800"
+
+[[headers]]
+  for = "/assets/video/*"
+  [headers.values]
+    Cache-Control = "public, max-age=604800"

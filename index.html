@@ -3,14 +3,15 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <!-- Stop phones from turning the account/MoMo numbers into blue tap-to-call links -->
+  <meta name="format-detection" content="telephone=no" />
   <title>RTC Foundation — Rita_Tia_Chichi Foundation</title>
   <meta name="description" content="RTC Foundation is a Ghana-based health charity working on road traffic accidents, cancers, and neurological diseases from Kumasi, Ashanti Region." />
 
   <link rel="icon" type="image/png" href="assets/img/icon.png" />
 
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@600;700&display=swap" rel="stylesheet" />
+  <link rel="preload" href="assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="preload" href="assets/fonts/poppins-700.woff2" as="font" type="font/woff2" crossorigin />
 
   <link rel="stylesheet" href="styles.css" />
 </head>
@@ -62,7 +63,11 @@
     <section class="hero" id="top">
       <img
         class="hero-photo"
-        src="assets/img/hero-photo.jpg"
+        src="assets/img/hero-photo-1280.jpg"
+        srcset="assets/img/hero-photo-800.jpg 800w, assets/img/hero-photo-1280.jpg 1280w, assets/img/hero-photo.jpg 1920w"
+        sizes="100vw"
+        fetchpriority="high"
+        decoding="async"
         alt="A smiling child in Ghana holding an exercise book and pencil, representing the communities RTC Foundation serves."
         width="1920"
         height="1047"
@@ -104,7 +109,7 @@
         <figure class="about-video">
           <video
             controls
-            preload="metadata"
+            preload="none"
             poster="assets/img/our-story-poster.jpg"
             width="480"
             height="480"
@@ -127,6 +132,24 @@
           certain neurological diseases, and to drastically reduce the incidence, morbidity, and
           mortality associated with cancers and road traffic accidents.
         </p>
+
+        <figure class="about-video about-video--wide">
+          <video
+            controls
+            preload="none"
+            poster="assets/img/rtc-intro-poster.jpg"
+            width="640"
+            height="352"
+          >
+            <source src="assets/video/rtc-intro.mp4" type="video/mp4" />
+            Your browser doesn't support embedded video.
+            <a href="assets/video/rtc-intro.mp4">Download the video</a> instead.
+          </video>
+          <figcaption>
+            Our mission, our vision, and the story behind RTC Foundation, recorded by our class
+            while we were still in medical school.
+          </figcaption>
+        </figure>
 
         <h3 class="values-heading">What we stand for</h3>
         <p class="values-list">
@@ -390,7 +413,8 @@
           <video
             class="logo-video"
             poster="assets/img/logo.png"
-            autoplay
+            preload="none"
+            data-lazy
             muted
             loop
             playsinline

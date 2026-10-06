@@ -50,14 +50,51 @@
       } else {
         video.hidden = false;
         still.hidden = true;
-        video.play().catch(function () {
-          /* Autoplay can be blocked by the browser; the poster image still shows. */
-        });
+        /* Lazy videos (the footer one) wait until scrolled into view. */
+        if (!video.hasAttribute("data-lazy") || video.dataset.inView === "true") {
+          video.play().catch(function () {
+            /* Autoplay can be blocked by the browser; the poster image still shows. */
+          });
+        }
       }
     });
   }
 
   applyMotionPreference(reducedMotionQuery.matches);
+
+  /* Footer logo: don't download or decode the animation until the
+     visitor actually scrolls near it, and pause it when it leaves
+     view. Keeps the first load light and saves battery on phones. */
+  var lazyVideos = document.querySelectorAll(".logo-video[data-lazy]");
+
+  if (lazyVideos.length) {
+    if ("IntersectionObserver" in window) {
+      var lazyObserver = new IntersectionObserver(
+        function (entries) {
+          entries.forEach(function (entry) {
+            var video = entry.target;
+            video.dataset.inView = entry.isIntersecting ? "true" : "false";
+            if (reducedMotionQuery.matches) return;
+            if (entry.isIntersecting) {
+              video.play().catch(function () {});
+            } else {
+              video.pause();
+            }
+          });
+        },
+        { rootMargin: "200px" }
+      );
+      lazyVideos.forEach(function (video) {
+        lazyObserver.observe(video);
+      });
+    } else {
+      /* Very old browsers: just play it. */
+      lazyVideos.forEach(function (video) {
+        video.dataset.inView = "true";
+        if (!reducedMotionQuery.matches) video.play().catch(function () {});
+      });
+    }
+  }
 
   if (typeof reducedMotionQuery.addEventListener === "function") {
     reducedMotionQuery.addEventListener("change", function (event) {
